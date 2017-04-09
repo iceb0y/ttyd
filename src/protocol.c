@@ -127,6 +127,8 @@ thread_run_command(void *args) {
             lwsl_err("forkpty, error: %d (%s)\n", errno, strerror(errno));
             break;
         case 0: /* child */
+            for (int fd = sysconf(_SC_OPEN_MAX) - 1; fd >= 3; --fd)
+                close(fd);
             if (setenv("TERM", "xterm-256color", true) < 0) {
                 perror("setenv");
                 exit(1);
