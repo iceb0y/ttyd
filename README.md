@@ -84,7 +84,6 @@ OPTIONS:
     --gid, -g               Group id to run with
     --signal, -s            Signal to send to the command when exit it (default: SIGHUP)
     --signal-list           Print a list of supported signals
-    --reconnect, -r         Time to reconnect for the client in seconds (default: 10)
     --readonly, -R          Do not allow clients to write to the TTY
     --client-option, -t     Send option to client (format: key=value), repeat to add more options
     --check-origin, -O      Do not allow websocket connection from different origin

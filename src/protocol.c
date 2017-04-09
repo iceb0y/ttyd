@@ -16,11 +16,6 @@ send_initial_message(struct lws *wsi) {
     if (lws_write(wsi, p, (size_t) n, LWS_WRITE_TEXT) < n) {
         return -1;
     }
-    // reconnect time
-    n = sprintf((char *) p, "%c%d", SET_RECONNECT, server->reconnect);
-    if (lws_write(wsi, p, (size_t) n, LWS_WRITE_TEXT) < n) {
-        return -1;
-    }
     // client preferences
     n = sprintf((char *) p, "%c%s", SET_PREFERENCES, server->prefs_json);
     if (lws_write(wsi, p, (size_t) n, LWS_WRITE_TEXT) < n) {

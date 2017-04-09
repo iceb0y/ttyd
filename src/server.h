@@ -61,7 +61,6 @@
 #define PONG '1'
 #define SET_WINDOW_TITLE '2'
 #define SET_PREFERENCES '3'
-#define SET_RECONNECT '4'
 
 // websocket url path
 #define WS_PATH "/ws"
@@ -102,7 +101,6 @@ struct tty_server {
     int client_count;                         // client count
     char *prefs_json;                         // client preferences
     char *credential;                         // encoded basic auth credential
-    int reconnect;                            // reconnect timeout
     char *index;                              // custom index.html
     char *command;                            // full command line
     char **argv;                              // command with arguments

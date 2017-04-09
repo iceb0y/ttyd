@@ -39,9 +39,6 @@ ttyd 1 "September 2016" ttyd "User Manual"
   --signal-list
       Print a list of supported signals
 
-  -r, --reconnect <seconds>
-      Time to reconnect for the client in seconds (default: 10)
-
   -R, --readonly
       Do not allow clients to write to the TTY
 

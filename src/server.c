@@ -27,7 +27,6 @@ static const struct option options[] = {
         {"gid",          required_argument, NULL, 'g'},
         {"signal",       required_argument, NULL, 's'},
         {"signal-list",  no_argument,       NULL,  1},
-        {"reconnect",    required_argument, NULL, 'r'},
         {"index",        required_argument, NULL, 'I'},
         {"ssl",          no_argument,       NULL, 'S'},
         {"ssl-cert",     required_argument, NULL, 'C'},
@@ -59,7 +58,6 @@ void print_help() {
                     "    --gid, -g               Group id to run with\n"
                     "    --signal, -s            Signal to send to the command when exit it (default: SIGHUP)\n"
                     "    --signal-list           Print a list of supported signals\n"
-                    "    --reconnect, -r         Time to reconnect for the client in seconds (default: 10)\n"
                     "    --readonly, -R          Do not allow clients to write to the TTY\n"
                     "    --client-option, -t     Send option to client (format: key=value), repeat to add more options\n"
                     "    --check-origin, -O      Do not allow websocket connection from different origin\n"
@@ -89,7 +87,6 @@ tty_server_new(int argc, char **argv, int start) {
     memset(ts, 0, sizeof(struct tty_server));
     LIST_INIT(&ts->clients);
     ts->client_count = 0;
-    ts->reconnect = 10;
     ts->sig_code = SIGHUP;
     ts->sig_name = strdup("SIGHUP");
     if (start == argc)
@@ -297,13 +294,6 @@ main(int argc, char **argv) {
                 }
             }
                 break;
-            case 'r':
-                server->reconnect = atoi(optarg);
-                if (server->reconnect <= 0) {
-                    fprintf(stderr, "ttyd: invalid reconnect: %s\n", optarg);
-                    return -1;
-                }
-                break;
             case 'I':
                 if (!strncmp(optarg, "~/", 2)) {
                     const char* home = getenv("HOME");
@@ -417,7 +407,6 @@ main(int argc, char **argv) {
     if (server->credential != NULL)
         lwsl_notice("  credential: %s\n", server->credential);
     lwsl_notice("  start command: %s\n", server->command);
-    lwsl_notice("  reconnect timeout: %ds\n", server->reconnect);
     lwsl_notice("  close signal: %s (%d)\n", server->sig_name, server->sig_code);
     if (server->check_origin)
         lwsl_notice("  check origin: true\n");

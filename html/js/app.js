@@ -4,7 +4,6 @@
         url = (httpsEnabled ? 'wss://' : 'ws://') + window.location.host + window.location.pathname + 'ws',
         authToken = (typeof tty_auth_token !== 'undefined') ? tty_auth_token : null,
         protocols = ["tty"],
-        autoReconnect = -1,
         term, pingTimer, wsError;
 
     var openWs = function() {
@@ -76,10 +75,6 @@
                         term.setOption(key, preferences[key]);
                     });
                     break;
-                case '4':
-                    autoReconnect = JSON.parse(data);
-                    console.log("Enabling reconnect: " + autoReconnect + " seconds");
-                    break;
             }
         };
 
@@ -94,9 +89,6 @@
             }
             window.removeEventListener('beforeunload', unloadCallback);
             clearInterval(pingTimer);
-            if (autoReconnect > 0) {
-                setTimeout(openWs, autoReconnect * 1000);
-            }
         };
     };
 
